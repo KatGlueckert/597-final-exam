@@ -1,13 +1,15 @@
 import React from 'react';
+import emailjs from 'emailjs-com';
+import {Link} from 'react-router-dom';
 
 export default class TeammateForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            questionName: props.teammate ? props.teammate.questionName : '',
-            questionEmail: props.teammate ? props.teammate.questionEmail : '',
-            questionComment: props.teammate ? props.teammate.questionComment : '',
+            questionName:  '',
+            questionEmail:  '',
+            questionComment:'',
             error: ''
         };
     }
@@ -31,20 +33,35 @@ export default class TeammateForm extends React.Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        if(!this.state.questionName || !this.state.questionEmail){
-            //Set error state
-            this.setState(({error: 'Please provide your name and email so that I can get back to you as quickly as possible'}));
-        } else {
-            //Clear the error
-            this.setState(({error: ''}));
+        // if(!this.state.questionName || !this.state.questionEmail){
+        //     //Set error state
+        //     this.setState(({error: 'Please provide your name and email so that I can get back to you as quickly as possible'}));
+        // } else {
+        //     //Clear the error
+        //     this.setState(({error: ''}));
 
-            this.props.onSubmit({
-                questionName: this.state.questionName,
-                questionEmail: this.state.questionEmail,
-                questionComment : this.state.questionComment
-            })
+        //     this.props.onSubmit({
+        //         questionName: this.state.questionName,
+        //         questionEmail: this.state.questionEmail,
+        //         questionComment : this.state.questionComment
+        //     })
 
-        }
+        // }
+
+        console.log(this.state);
+        const templateId = 'template_DnqAEbRz';
+        const serviceId = 'default_service';
+        const userId = 'user_L4SuezHWVQQtup4S6NGwf';
+        
+        
+        emailjs.send(serviceId, templateId, this.state, userId)
+            .then((responce) => {
+                
+                console.log('Success!', responce.status, responce.text);
+            }, (err) => {
+                console.log('Failed', err);
+            });
+       
     }
     render() {
         return (
@@ -75,7 +92,10 @@ export default class TeammateForm extends React.Component {
                         onChange = {this.onQuestionCommentChange}
                         />
                     <div>
-                        <button className="button">Submit</button>
+                    <button className="button">Contact Creator</button>
+                    <Link className="button" to="/dashboard">Return to Dashboard</Link>
+                
+                    
                     </div>
                 </form>
         )

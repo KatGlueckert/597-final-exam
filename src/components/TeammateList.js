@@ -5,11 +5,11 @@ import TeammateListItem from './TeammateListItem';
 import selectTeammates from '../selectors/teammates';
 
 export const TeammateList = (props) => (
-    <div className="content-container">
+    <div >
     
         
         <div className="page-header__actions">
-                    <Link className="button" to="/createteammate/${state.auth.id}">Contact Me </Link>
+                    <Link className="button" to="/createteammate">Contact Me </Link>
         </div>
         
     </div>
